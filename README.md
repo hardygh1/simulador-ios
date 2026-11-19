@@ -1,16 +1,12 @@
 # SwiftLab Web
 
-SwiftLab Web es un simulador educativo para practicar un subconjunto de Swift y SwiftUI desde Windows 11. Incluye un editor Monaco, un parser propio, un intérprete controlado, estado reactivo y una vista de iPhone construida en React.
+SwiftLab Web es un simulador educativo inspirado en Xcode para aprender desde Windows el patrón usado en los laboratorios del curso: **UIKit + Storyboard + Swift**. Las prácticas utilizan `UIViewController`, conexiones `IBOutlet`, eventos `IBAction` y una vista interactiva de iPhone.
 
-No compila Swift real, no ejecuta iOS y no reemplaza Xcode. El objetivo es practicar fundamentos y observar cómo el código admitido cambia una interfaz.
+No compila una aplicación iOS real ni sustituye Xcode. Su objetivo es enseñar la estructura de un proyecto, practicar el código de clase y comprobar visualmente el comportamiento de los ejercicios.
 
-## Requisitos
+## Ejecutar el proyecto
 
-- Windows 11, macOS o Linux
-- Node.js 18 o posterior
-- npm 9 o posterior
-
-## Instalación y ejecución
+Requiere Node.js 18 o posterior y npm 9 o posterior.
 
 ```bash
 npm install
@@ -19,120 +15,104 @@ npm run dev
 
 Abre la dirección que muestra Vite, normalmente `http://127.0.0.1:5173`.
 
-Para verificar el proyecto:
+Para comprobar el proyecto:
 
 ```bash
-npm test
+npm test -- --run
 npm run build
 ```
 
 ## Qué incluye
 
-- Editor Swift basado en Monaco con resaltado, líneas y edición en vivo.
-- Simulador visual de iPhone con apariencia clara y oscura.
-- Lexer y parser que producen un AST. No se usa `eval()` ni se genera JavaScript desde el código Swift.
-- Intérprete de expresiones, condicionales y acciones de botones.
-- Bindings como `$nombre` para actualizar `@State` desde `TextField`, `SecureField` y `Toggle`.
-- Consola con errores, ubicación y explicaciones.
-- Guardado local por ejercicio mediante LocalStorage.
-- Creación de proyectos SwiftUI locales con nombre y plantilla inicial.
-- Disposición inspirada en Xcode: toolbar, navegador, editor, Canvas, utilidades y área de depuración.
-- Código y Canvas acoplables: lado a lado, uno sobre otro, intercambiables y con divisor redimensionable.
-- Biblioteca SwiftUI para insertar vistas y modificadores en la posición del cursor.
-- Inspector visual: selecciona una vista del Canvas y cambia tamaño, fuente, colores, padding y radio.
-- Árbol de proyecto con `App.swift`, `ContentView.swift`, Assets, Preview Content y Products.
-- Diez plantillas editables y un banco de retos basado en el material del curso.
+- Interfaz inspirada en Xcode: barra de herramientas, navegador, editor, vista de la app, Inspector, Biblioteca y consola.
+- Editor Monaco con resaltado para Swift y UIKit.
+- Diez prácticas escritas como controladores UIKit, siguiendo el estilo del código del curso.
+- Proyectos nuevos con `Main.storyboard`, `ViewController.swift`, `AppDelegate.swift`, `SceneDelegate.swift`, Assets y Products.
+- Vista de iPhone interactiva para escribir datos, pulsar botones, cambiar interruptores y ver resultados.
+- Inspector visual para seleccionar componentes y modificar tamaño, fuente, color, fondo, espaciado y bordes.
+- Biblioteca de controles y fragmentos UIKit: `UILabel`, `UITextField`, `UIButton`, `UISwitch`, `IBAction` y otros.
+- Organización horizontal o vertical de código y vista, intercambio de posición y divisor redimensionable.
+- Tema claro y oscuro.
+- Guardado de ejercicios y proyectos en `localStorage`.
+- Consola con diagnósticos básicos y explicaciones de errores.
 
-## Sintaxis admitida
+## Código UIKit admitido
 
-### Estado y valores
+El validador reconoce el patrón principal trabajado en clase:
 
-- `@State var nombre: String = ""`
-- `String`, `Int`, `Double` y `Bool`
-- Variables locales `let` y `var` dentro de `Button`
-- Asignaciones `=`, `+=`, `-=`, `*=` y `/=`
+```swift
+import UIKit
 
-### Expresiones
+class PromedioViewController: UIViewController {
+    @IBOutlet weak var txtNombre: UITextField!
+    @IBOutlet weak var lblResultado: UILabel!
 
-- `+`, `-`, `*`, `/` y `%`
-- `==`, `!=`, `<`, `<=`, `>` y `>=`
-- `&&`, `||`, `!` y `??`
-- `Double(texto)`, `Int(texto)` y `String(format: "%.2f", valor)`
-- Interpolación como `"Promedio: \(promedio)"`
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 
-### Control y vistas
+    @IBAction func btnCalcularPromedio(_ sender: UIButton) {
+        // Lógica del ejercicio
+    }
+}
+```
 
-- `if / else`
-- `VStack`, `HStack` y `ZStack`
-- `Text`, `TextField`, `SecureField`, `Button`, `Toggle`, `Image(systemName:)` y `Spacer`
-- `.padding()`, `.font()`, `.foregroundColor()`, `.background()`, `.cornerRadius()` y `.frame()`
+La simulación cubre controles como `UILabel`, `UITextField`, `UIButton`, `UISwitch` y `UISegmentedControl`, además de conversiones numéricas, `if / else`, `guard`, interpolación, `String(format:)`, cambios de texto y colores comunes.
 
-## Limitaciones conocidas
+## Prácticas incluidas
 
-- No admite todo Swift ni todo SwiftUI.
-- No admite bucles, `switch`, `List`, `ForEach`, navegación, colecciones ni funciones definidas por el estudiante en esta fase.
-- No ejecuta UIKit, Storyboard, `IBOutlet` o `IBAction`. Los laboratorios UIKit se usan como referencia temática y se adaptan a SwiftUI.
-- Los SF Symbols se representan con un mapa pequeño de iconos equivalentes.
-- La persistencia es local al navegador y no se sincroniza entre equipos.
-
-Cuando se encuentra una construcción fuera del subconjunto, la consola explica la limitación en lugar de intentar ejecutar código arbitrario.
-
-## Plantillas incluidas
-
-1. Hola mundo
+1. Hola mundo con `UILabel` y `UIButton`
 2. Contador con botones
 3. Calculadora de dos números
-4. Promedio de tres notas con validación
+4. Promedio de dos notas con validación
 5. Conversor de temperatura
 6. Validación de edad
 7. Formulario de registro
 8. Inicio de sesión simulado
-9. Condicionales por rangos
-10. Laboratorio de `@State`
+9. Clasificación del consumo de agua
+10. Laboratorio de `UISwitch`
 
-El banco adicional contiene retos de minutos a horas, promedio ponderado, descuentos, consumo, inventario, becas, estacionamiento, compras, recetas y tareas.
+La práctica de promedio mantiene los mismos nombres y estructura del ejemplo del curso: `PromedioViewController`, `txtNombre`, `txtNota1`, `txtNota2`, `lblResultado` y `btnCalcularPromedio`.
 
 ## Crear un proyecto
 
 1. Pulsa **Nuevo** en el navegador izquierdo.
 2. Escribe el nombre del producto.
-3. Elige App vacía, Contador o Promedio.
+3. Elige una plantilla Storyboard: vacía, contador o promedio.
 4. Pulsa **Crear proyecto**.
-5. Expande el proyecto para ver `App.swift`, `ContentView.swift`, `Assets.xcassets`, `Preview Content` y `Products`.
-6. Edita `ContentView.swift` y usa **Ejecutar** para actualizar el Canvas.
+5. Expande el proyecto para ver `ViewController.swift`, `Main.storyboard`, AppDelegate, SceneDelegate, Assets y Products.
+6. Edita el controlador y pulsa **Ejecutar** para validar y actualizar la vista.
 
-Código y Canvas ocupan el área central. Los botones sobre ambas ventanas permiten colocarlas lado a lado, una sobre otra o intercambiar su posición; el divisor se arrastra para cambiar el tamaño. El Inspector y la Biblioteca permanecen en la columna derecha.
+El código y la vista Storyboard ocupan el área central. Se pueden colocar lado a lado, uno sobre otro, intercambiar de posición y redimensionar. El Inspector y la Biblioteca permanecen a la derecha, como herramientas del área de diseño.
 
-Haz clic sobre un componente del Canvas para seleccionarlo. El Inspector permite ajustar ancho, alto, tamaño de fuente, color, fondo, padding y radio de esquina. Al pulsar un componente de la Biblioteca, SwiftLab inserta su código en la posición actual del cursor.
+Haz clic en un componente de la vista para seleccionarlo. Después usa el Inspector para modificar sus propiedades visuales. La Biblioteca inserta conexiones, acciones y controles UIKit en la posición actual del editor.
 
 ## Arquitectura
 
 ```text
 src/
   components/
-    console/
-    editor/
-    projects/
-    simulator/
+    editor/       Editor y biblioteca UIKit
+    projects/     Creación y árbol del proyecto
+    simulator/    Vista de iPhone UIKit
+    utility/      Inspector y biblioteca
   engine/
-    lexer/
-    parser/
-    interpreter/
-    renderer/
-  store/
-  templates/
-  types/
+    uikit/        Detección y validación UIKit
+    parser/       Compatibilidad con proyectos SwiftUI anteriores
+    interpreter/  Evaluación educativa de expresiones
+  store/          Estado y persistencia local
+  templates/      Prácticas y proyectos iniciales
 ```
 
-Flujo de ejecución:
+## Limitaciones
 
-1. Monaco entrega el código fuente.
-2. El lexer produce tokens con línea y columna.
-3. El parser construye el AST y registra diagnósticos.
-4. El intérprete inicializa los estados y evalúa acciones.
-5. El renderizador transforma los nodos SwiftUI admitidos en componentes React.
-6. Cada interacción actualiza el estado y vuelve a renderizar la pantalla.
+- Es un simulador web educativo, no el compilador de Swift ni el SDK de iOS.
+- `Main.storyboard` es una representación virtual; todavía no edita XML de Storyboard ni implementa el motor completo de Auto Layout.
+- La vista interpreta los patrones previstos para estas prácticas, no cualquier código UIKit existente.
+- No genera un archivo `.ipa`, no abre el simulador oficial y no puede publicar una app en App Store.
+- La persistencia es local al navegador y no se sincroniza entre equipos.
+- El parser SwiftUI anterior se conserva únicamente para abrir proyectos guardados de versiones previas.
 
-## Material del curso incorporado
+## Material del curso
 
-La experiencia prioriza los temas de los archivos compartidos: plataforma iOS y Xcode, operaciones básicas, condicionales, validación por rangos, promedio simple y ponderado, formularios, vistas y estado. Los proyectos de PromedioApp, ComprasApp, RecetasApp y TareasApp inspiran ejercicios progresivos, aunque el simulador ejecuta la versión SwiftUI educativa y no el código UIKit original.
+Las prácticas se adaptaron al formato real observado en el material compartido: proyectos con Storyboard y controladores UIKit, operaciones, condicionales, validación, promedio, formularios y manejo de controles. El código de práctica ya no se transforma a SwiftUI.

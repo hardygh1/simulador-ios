@@ -58,6 +58,8 @@ export interface ExerciseTemplate {
   expected: string;
   code: string;
   source?: string;
+  framework?: "uikit" | "swiftui";
+  fileName?: string;
 }
 
 export interface Challenge {

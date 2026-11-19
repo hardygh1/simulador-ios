@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import type { CanvasSelection, ComponentVisualStyle, Diagnostic, LabProject, Program, ProjectStarterId, Statement, SwiftValue } from "../types";
 import { projectStarterById, templates, templateById } from "../templates";
 import { parseSwiftUI } from "../engine/parser";
+import { parseSwiftSource } from "../engine/uikit";
 import { executeStatements, initializeProgram, type RuntimeState } from "../engine/interpreter";
 
 type Theme = "dark" | "light";
@@ -44,13 +45,13 @@ interface LabStore {
 }
 
 const defaultTemplate = templateById("promedio");
-const defaultProgram = parseSwiftUI(defaultTemplate.code);
+const defaultProgram = parseSwiftSource(defaultTemplate.code, parseSwiftUI);
 const defaultRuntime = initializeProgram(defaultProgram).state;
 
 const stamp = () => new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 
 const runCode = (code: string) => {
-  const program = parseSwiftUI(code);
+  const program = parseSwiftSource(code, parseSwiftUI);
   const hasErrors = program.diagnostics.some((diagnostic) => diagnostic.severity === "error");
   const initialized = hasErrors ? { state: {}, diagnostics: [] as Diagnostic[] } : initializeProgram(program);
   return { program, state: initialized.state, diagnostics: [...program.diagnostics, ...initialized.diagnostics], hasErrors };
@@ -103,7 +104,7 @@ export const useLabStore = create<LabStore>()(
           runtimeState: result.state,
           diagnostics: result.diagnostics,
           running: !result.hasErrors,
-          logs: [`${stamp()}  Proyecto abierto: ${project.name}.`, result.hasErrors ? "El proyecto contiene errores pendientes." : "ContentView.swift compilado por el simulador."],
+          logs: [`${stamp()}  Proyecto abierto: ${project.name}.`, result.hasErrors ? "El proyecto contiene errores pendientes." : "ViewController.swift validado por el simulador UIKit."],
           canvasSelection: null
         });
       },
@@ -122,7 +123,7 @@ export const useLabStore = create<LabStore>()(
           runtimeState: result.state,
           diagnostics: result.diagnostics,
           running: !result.hasErrors,
-          logs: [`${stamp()}  Proyecto ${project.name} creado.`, "ContentView.swift está listo para editar."],
+          logs: [`${stamp()}  Proyecto ${project.name} creado.`, "Main.storyboard y ViewController.swift están listos."],
           canvasSelection: null
         }));
         return id;
@@ -231,13 +232,13 @@ export const useLabStore = create<LabStore>()(
 );
 
 export const supportedSyntax = [
-  "@State con String, Int, Double y Bool",
-  "VStack, HStack, ZStack, Text y Spacer",
-  "TextField, SecureField, Toggle y Button",
-  "Image(systemName:) con símbolos frecuentes",
-  "if / else, variables locales y asignaciones",
+  "import UIKit y clases UIViewController",
+  "IBOutlet con UILabel, UITextField, UIButton y UISwitch",
+  "IBAction para eventos Touch Up Inside y Value Changed",
+  "viewDidLoad y ciclo de vida básico",
+  "if / else, guard, variables locales y conversiones",
   "+, −, ×, ÷, %, comparaciones y operadores lógicos",
-  "Double(texto) ?? 0, Int(texto) y String(format:)"
+  "Double(texto), Int(texto) y String(format:)"
 ];
 
 export const templateCount = templates.length;

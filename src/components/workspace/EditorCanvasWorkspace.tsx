@@ -2,10 +2,14 @@ import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointer
 import { ArrowLeftRight, Code2, Columns2, Rows2, Smartphone } from "lucide-react";
 import { CodeEditor } from "../editor/CodeEditor";
 import { IPhoneSimulator } from "../simulator/IPhoneSimulator";
+import { useLabStore } from "../../store/useLabStore";
+import { isUIKitSource } from "../../engine/uikit";
 
 type Orientation = "horizontal" | "vertical";
 
 export function EditorCanvasWorkspace() {
+  const code = useLabStore((state) => state.code);
+  const visualPaneName = isUIKitSource(code) ? "Storyboard" : "Canvas";
   const [orientation, setOrientation] = useState<Orientation>("horizontal");
   const [canvasFirst, setCanvasFirst] = useState(false);
   const [split, setSplit] = useState(55);
@@ -36,13 +40,13 @@ export function EditorCanvasWorkspace() {
   const layoutStyle = { "--dock-split": `${split}%` } as CSSProperties;
 
   return (
-    <section className="editor-canvas-workspace" aria-label="Área de código y Canvas">
+    <section className="editor-canvas-workspace" aria-label="Área de código y diseño de interfaz">
       <div className="canvas-layout-toolbar">
-        <div><Code2 size={14} /><span>Código</span><span className="layout-plus">+</span><Smartphone size={14} /><span>Canvas</span></div>
+        <div><Code2 size={14} /><span>Código</span><span className="layout-plus">+</span><Smartphone size={14} /><span>{visualPaneName}</span></div>
         <div className="canvas-layout-actions" aria-label="Distribución de ventanas">
           <button type="button" className={orientation === "horizontal" ? "active" : ""} onClick={() => setOrientation("horizontal")} title="Ventanas lado a lado"><Columns2 size={15} /></button>
           <button type="button" className={orientation === "vertical" ? "active" : ""} onClick={() => setOrientation("vertical")} title="Ventanas una sobre otra"><Rows2 size={15} /></button>
-          <button type="button" onClick={() => setCanvasFirst((value) => !value)} title="Intercambiar Código y Canvas"><ArrowLeftRight size={15} /><span>Intercambiar</span></button>
+          <button type="button" onClick={() => setCanvasFirst((value) => !value)} title={`Intercambiar Código y ${visualPaneName}`}><ArrowLeftRight size={15} /><span>Intercambiar</span></button>
         </div>
       </div>
       <div ref={frameRef} className={`dock-frame ${orientation}`} style={layoutStyle} onPointerMove={resize} onPointerUp={finishResize} onPointerCancel={finishResize}>

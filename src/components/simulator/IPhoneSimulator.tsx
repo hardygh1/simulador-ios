@@ -1,9 +1,12 @@
 import { BatteryMedium, Moon, RotateCcw, Signal, Sun, Wifi } from "lucide-react";
 import { SwiftUIRenderer } from "../../engine/renderer/SwiftUIRenderer";
+import { isUIKitSource } from "../../engine/uikit";
 import { useLabStore } from "../../store/useLabStore";
+import { UIKitPreview } from "./UIKitPreview";
 
 export function IPhoneSimulator() {
   const program = useLabStore((state) => state.program);
+  const code = useLabStore((state) => state.code);
   const runtimeState = useLabStore((state) => state.runtimeState);
   const running = useLabStore((state) => state.running);
   const setBinding = useLabStore((state) => state.setBinding);
@@ -48,7 +51,9 @@ export function IPhoneSimulator() {
               <span className="status-icons"><Signal size={13} fill="currentColor" /><Wifi size={14} /><BatteryMedium size={17} /></span>
             </div>
             <main className="ios-app-screen" onClick={(event) => { if (event.target === event.currentTarget) selectCanvasComponent(null); }}>
-              {running && program?.root ? (
+              {running && isUIKitSource(code) ? (
+                <UIKitPreview />
+              ) : running && program?.root ? (
                 <SwiftUIRenderer
                   root={program.root}
                   state={runtimeState}

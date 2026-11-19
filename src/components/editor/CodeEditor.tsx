@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import Editor, { type BeforeMount, type OnMount } from "@monaco-editor/react";
 import { RotateCcw } from "lucide-react";
 import { useLabStore } from "../../store/useLabStore";
+import { templateById } from "../../templates";
 
 export function CodeEditor() {
   const code = useLabStore((state) => state.code);
@@ -13,6 +14,7 @@ export function CodeEditor() {
   const insertionRequest = useLabStore((state) => state.insertionRequest);
   const clearInsertionRequest = useLabStore((state) => state.clearInsertionRequest);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
+  const fileName = activeCustomProjectId ? "ViewController.swift" : templateById(selectedTemplateId).fileName ?? "ViewController.swift";
 
   useEffect(() => {
     const editor = editorRef.current;
@@ -35,8 +37,8 @@ export function CodeEditor() {
     if (!monaco.languages.getLanguages().some((language) => language.id === "swift")) {
       monaco.languages.register({ id: "swift" });
       monaco.languages.setMonarchTokensProvider("swift", {
-        keywords: ["import", "struct", "var", "let", "some", "if", "else", "true", "false", "private", "return"],
-        typeKeywords: ["View", "String", "Int", "Double", "Bool", "VStack", "HStack", "ZStack", "Text", "TextField", "Button", "Toggle", "Image"],
+        keywords: ["import", "class", "struct", "var", "let", "if", "else", "guard", "true", "false", "private", "return", "override", "func", "weak", "super"],
+        typeKeywords: ["UIViewController", "UILabel", "UITextField", "UIButton", "UISwitch", "UISegmentedControl", "UITableView", "UIImageView", "String", "Int", "Double", "Bool"],
         tokenizer: {
           root: [
             [/@[A-Za-z_][\w]*/, "annotation"],
@@ -89,7 +91,7 @@ export function CodeEditor() {
       <div className="pane-titlebar">
         <div className="file-tab">
           <span className="swift-file-icon">S</span>
-          <span>ContentView.swift</span>
+          <span>{fileName}</span>
           <span className="unsaved-dot" aria-label="Los cambios se guardan localmente" />
         </div>
         {!activeCustomProjectId && (
@@ -101,7 +103,7 @@ export function CodeEditor() {
       <div className="editor-surface">
         <Editor
           beforeMount={configureMonaco}
-          path={`${activeCustomProjectId ?? selectedTemplateId}.swift`}
+          path={`${activeCustomProjectId ?? selectedTemplateId}/${fileName}`}
           language="swift"
           theme={theme === "dark" ? "swiftlab-dark" : "swiftlab-light"}
           value={code}

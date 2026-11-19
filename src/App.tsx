@@ -26,6 +26,7 @@ export default function App() {
   const [showUtility, setShowUtility] = useState(true);
   const errorCount = diagnostics.filter((item) => item.severity === "error").length;
   const title = activeProject?.name ?? template.title;
+  const activeFileName = activeProject ? "ViewController.swift" : template.fileName ?? "ViewController.swift";
 
   return (
     <div className={`app-shell theme-${theme}`}>
@@ -71,11 +72,11 @@ export default function App() {
           <section className="exercise-brief">
             <div className="brief-icon"><Sparkles size={17} /></div>
             <div className="brief-main">
-              <span>{activeProject ? "PROYECTO SWIFTUI" : `${template.level} · ${template.topic}`}</span>
+              <span>{activeProject ? "PROYECTO UIKIT + STORYBOARD" : `${template.level} · ${template.topic}`}</span>
               <h1>{title}</h1>
-              <p>{activeProject ? "Proyecto local · ContentView.swift" : template.description}</p>
+              <p>{activeProject ? `Proyecto local · Main.storyboard · ${activeFileName}` : template.description}</p>
             </div>
-            <div className="expected-result"><span>{activeProject ? "CANVAS" : "RESULTADO ESPERADO"}</span><p>{activeProject ? "Ejecuta el archivo para actualizar la vista previa." : template.expected}</p><small>{activeProject ? "SwiftUI · Swift" : template.source}</small></div>
+            <div className="expected-result"><span>{activeProject ? "SIMULADOR" : "RESULTADO ESPERADO"}</span><p>{activeProject ? "Conecta las vistas del Storyboard y ejecuta el controlador." : template.expected}</p><small>{activeProject ? "UIKit · Storyboard · Swift" : template.source}</small></div>
           </section>
           <div className="editor-simulator-grid">
             <EditorCanvasWorkspace />

@@ -45,7 +45,7 @@ export function NewProjectDialog({ onClose }: NewProjectDialogProps) {
             {duplicate && <small className="field-error">Ya existe un proyecto con ese nombre.</small>}
           </label>
           <div className="project-settings-row">
-            <label><span>Interfaz</span><input value="SwiftUI" disabled /></label>
+            <label><span>Interfaz</span><input value="Storyboard" disabled /></label>
             <label><span>Lenguaje</span><input value="Swift" disabled /></label>
             <label><span>Persistencia</span><input value="Local" disabled /></label>
           </div>
@@ -71,7 +71,7 @@ export function NewProjectDialog({ onClose }: NewProjectDialogProps) {
         </div>
 
         <footer>
-          <p>El proyecto se guardará en este navegador y se abrirá con <strong>ContentView.swift</strong>.</p>
+          <p>El proyecto se guardará en este navegador y se abrirá con <strong>Main.storyboard</strong> y <strong>ViewController.swift</strong>.</p>
           <div><button type="button" className="dialog-secondary" onClick={onClose}>Cancelar</button><button type="button" className="dialog-primary" disabled={!valid} onClick={submit}>Crear proyecto</button></div>
         </footer>
       </section>

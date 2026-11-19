@@ -7,20 +7,19 @@ export interface SwiftUIComponentDefinition {
 }
 
 export const swiftUIComponents: SwiftUIComponentDefinition[] = [
-  { id: "vstack", name: "VStack", category: "Diseño", description: "Organiza vistas verticalmente.", snippet: "VStack {\n    Text(\"Elemento\")\n}" },
-  { id: "hstack", name: "HStack", category: "Diseño", description: "Organiza vistas horizontalmente.", snippet: "HStack {\n    Text(\"Izquierda\")\n    Text(\"Derecha\")\n}" },
-  { id: "zstack", name: "ZStack", category: "Diseño", description: "Superpone vistas en profundidad.", snippet: "ZStack {\n    Text(\"Fondo\")\n    Text(\"Frente\")\n}" },
-  { id: "spacer", name: "Spacer", category: "Diseño", description: "Añade espacio flexible.", snippet: "Spacer()" },
-  { id: "text", name: "Text", category: "Contenido", description: "Muestra texto de solo lectura.", snippet: "Text(\"Nuevo texto\")" },
-  { id: "image", name: "Image", category: "Contenido", description: "Muestra un símbolo del sistema.", snippet: "Image(systemName: \"swift\")\n    .font(.largeTitle)\n    .foregroundColor(.orange)" },
-  { id: "textfield", name: "TextField", category: "Controles", description: "Entrada de texto con binding.", snippet: "TextField(\"Escribe aquí\", text: $texto)\n    .padding()\n    .background(.gray)\n    .cornerRadius(10)" },
-  { id: "securefield", name: "SecureField", category: "Controles", description: "Entrada protegida para contraseñas.", snippet: "SecureField(\"Contraseña\", text: $clave)\n    .padding()\n    .background(.gray)\n    .cornerRadius(10)" },
-  { id: "button", name: "Button", category: "Controles", description: "Ejecuta una acción al pulsarlo.", snippet: "Button(\"Continuar\") {\n    mensaje = \"Botón pulsado\"\n}" },
-  { id: "toggle", name: "Toggle", category: "Controles", description: "Activa o desactiva un Bool.", snippet: "Toggle(\"Activado\", isOn: $activo)" },
-  { id: "padding", name: ".padding()", category: "Modificadores", description: "Añade espacio alrededor de una vista.", snippet: ".padding()" },
-  { id: "font", name: ".font()", category: "Modificadores", description: "Cambia el estilo tipográfico.", snippet: ".font(.title)" },
-  { id: "foreground", name: ".foregroundColor()", category: "Modificadores", description: "Cambia el color del contenido.", snippet: ".foregroundColor(.blue)" },
-  { id: "background", name: ".background()", category: "Modificadores", description: "Añade un fondo a la vista.", snippet: ".background(.gray)" },
-  { id: "corner", name: ".cornerRadius()", category: "Modificadores", description: "Redondea las esquinas.", snippet: ".cornerRadius(10)" },
-  { id: "frame", name: ".frame()", category: "Modificadores", description: "Controla el tamaño de una vista.", snippet: ".frame(maxWidth: .infinity)" }
+  { id: "controller", name: "UIViewController", category: "Diseño", description: "Controlador de una pantalla Storyboard.", snippet: "class ViewController: UIViewController {\n\n    override func viewDidLoad() {\n        super.viewDidLoad()\n    }\n}" },
+  { id: "viewdidload", name: "viewDidLoad", category: "Diseño", description: "Configura la pantalla al cargar.", snippet: "override func viewDidLoad() {\n    super.viewDidLoad()\n}" },
+  { id: "outlet-label", name: "UILabel IBOutlet", category: "Contenido", description: "Conexión con una etiqueta del Storyboard.", snippet: "@IBOutlet weak var lblResultado: UILabel!" },
+  { id: "outlet-image", name: "UIImageView IBOutlet", category: "Contenido", description: "Conexión con una imagen.", snippet: "@IBOutlet weak var imgContenido: UIImageView!" },
+  { id: "outlet-field", name: "UITextField IBOutlet", category: "Controles", description: "Conexión con un campo de texto.", snippet: "@IBOutlet weak var txtDato: UITextField!" },
+  { id: "outlet-button", name: "UIButton IBOutlet", category: "Controles", description: "Conexión de referencia con un botón.", snippet: "@IBOutlet weak var btnContinuar: UIButton!" },
+  { id: "outlet-switch", name: "UISwitch IBOutlet", category: "Controles", description: "Conexión con un interruptor.", snippet: "@IBOutlet weak var swActivo: UISwitch!" },
+  { id: "outlet-segment", name: "UISegmentedControl", category: "Controles", description: "Selector de opciones por segmentos.", snippet: "@IBOutlet weak var scOpciones: UISegmentedControl!" },
+  { id: "outlet-table", name: "UITableView IBOutlet", category: "Controles", description: "Conexión con una tabla.", snippet: "@IBOutlet weak var tblElementos: UITableView!" },
+  { id: "action-button", name: "IBAction UIButton", category: "Controles", description: "Acción Touch Up Inside de un botón.", snippet: "@IBAction func btnContinuar(_ sender: UIButton) {\n    // Escribe aquí la lógica\n}" },
+  { id: "action-switch", name: "IBAction UISwitch", category: "Controles", description: "Acción Value Changed de un switch.", snippet: "@IBAction func swActivoCambio(_ sender: UISwitch) {\n    // Lee sender.isOn\n}" },
+  { id: "label-text", name: "UILabel.text", category: "Modificadores", description: "Cambia el texto de una etiqueta.", snippet: "lblResultado.text = \"Resultado\"" },
+  { id: "label-color", name: "UILabel.textColor", category: "Modificadores", description: "Cambia el color de una etiqueta.", snippet: "lblResultado.textColor = .systemBlue" },
+  { id: "secure", name: "Texto seguro", category: "Modificadores", description: "Oculta una contraseña en UITextField.", snippet: "txtClave.isSecureTextEntry = true" },
+  { id: "segue", name: "performSegue", category: "Diseño", description: "Navega usando un segue con identificador.", snippet: "performSegue(withIdentifier: \"mostrarDetalle\", sender: self)" }
 ];

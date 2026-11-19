@@ -46,12 +46,12 @@ export function UtilityPanel() {
 
       {tab === "inspector" && (
         <div className="inspector-content">
-          <div className="utility-title"><SlidersHorizontal size={16} /><div><strong>{selection ? `Inspector de ${selection.name}` : "Inspector"}</strong><span>{selection ? "Cambios visuales en vivo" : "Archivo y selección del Canvas"}</span></div></div>
+          <div className="utility-title"><SlidersHorizontal size={16} /><div><strong>{selection ? `Inspector de ${selection.name}` : "Inspector"}</strong><span>{selection ? "Cambios visuales en vivo" : "Archivo y selección del Storyboard"}</span></div></div>
 
           {selection ? (
             <>
               <section className="selection-summary">
-                <div className="selected-component-badge"><MousePointer2 size={16} /><span><strong>{selection.name}</strong><small>{selection.kind} · seleccionado en Canvas</small></span></div>
+                <div className="selected-component-badge"><MousePointer2 size={16} /><span><strong>{selection.name}</strong><small>{selection.kind} · seleccionado en la vista</small></span></div>
                 <button type="button" className="reset-properties" onClick={() => resetVisualStyle(selection.id)}><RotateCcw size={13} /> Restablecer</button>
               </section>
               <section>
@@ -63,23 +63,23 @@ export function UtilityPanel() {
               </section>
               <section>
                 <h3>Texto y relleno</h3>
-                <label><span>Tamaño fuente</span><input type="number" min="8" max="72" placeholder="SwiftUI" value={style.fontSize ?? ""} onChange={(event) => updateNumber("fontSize", event.target.value)} /></label>
+                <label><span>Tamaño fuente</span><input type="number" min="8" max="72" placeholder="Storyboard" value={style.fontSize ?? ""} onChange={(event) => updateNumber("fontSize", event.target.value)} /></label>
                 <label className="color-property"><span>Color</span><input type="color" value={style.foregroundColor ?? "#0a84ff"} onChange={(event) => updateColor("foregroundColor", event.target.value)} /><input value={style.foregroundColor ?? ""} placeholder="Sin cambio" onChange={(event) => updateColor("foregroundColor", event.target.value)} /></label>
                 <label className="color-property"><span>Fondo</span><input type="color" value={style.backgroundColor ?? "#ffffff"} onChange={(event) => updateColor("backgroundColor", event.target.value)} /><input value={style.backgroundColor ?? ""} placeholder="Sin cambio" onChange={(event) => updateColor("backgroundColor", event.target.value)} /></label>
               </section>
               <section>
                 <h3>Disposición</h3>
-                <label><span>Padding</span><input type="number" min="0" max="80" placeholder="SwiftUI" value={style.padding ?? ""} onChange={(event) => updateNumber("padding", event.target.value)} /></label>
-                <label><span>Radio esquina</span><input type="number" min="0" max="80" placeholder="SwiftUI" value={style.cornerRadius ?? ""} onChange={(event) => updateNumber("cornerRadius", event.target.value)} /></label>
+                <label><span>Padding</span><input type="number" min="0" max="80" placeholder="Storyboard" value={style.padding ?? ""} onChange={(event) => updateNumber("padding", event.target.value)} /></label>
+                <label><span>Radio esquina</span><input type="number" min="0" max="80" placeholder="Storyboard" value={style.cornerRadius ?? ""} onChange={(event) => updateNumber("cornerRadius", event.target.value)} /></label>
               </section>
               <section className="quick-help"><p><Info size={14} /><span>La selección azul identifica la vista activa. Los cambios se guardan localmente con el proyecto.</span></p></section>
             </>
           ) : (
             <>
-              <section className="canvas-selection-help"><MousePointer2 size={20} /><strong>Selecciona una vista en el Canvas</strong><p>Haz clic en un Text, Button, Image, campo o contenedor para editar sus propiedades.</p></section>
+              <section className="canvas-selection-help"><MousePointer2 size={20} /><strong>Selecciona un control de la vista</strong><p>Haz clic en un UILabel, UIButton, UITextField o UISwitch para editar sus propiedades.</p></section>
               <section>
                 <h3>Identidad y tipo</h3>
-                <label><span>Nombre</span><input value="ContentView.swift" readOnly /></label>
+                <label><span>Nombre</span><input value="ViewController.swift" readOnly /></label>
                 <label><span>Tipo</span><input value="Swift Source" readOnly /></label>
                 <label><span>Ubicación</span><input value="Relative to Group" readOnly /></label>
               </section>
@@ -89,8 +89,8 @@ export function UtilityPanel() {
               </section>
               <section className="quick-help">
                 <h3>Ayuda rápida</h3>
-                <p><FileCode2 size={14} /> <span><strong>ContentView</strong> define la jerarquía visual principal.</span></p>
-                <p><Info size={14} /> Este entorno interpreta un subconjunto educativo de SwiftUI.</p>
+                <p><FileCode2 size={14} /> <span><strong>UIViewController</strong> controla la pantalla diseñada en Main.storyboard.</span></p>
+                <p><Info size={14} /> Conecta componentes mediante IBOutlet e IBAction.</p>
               </section>
             </>
           )}
@@ -99,7 +99,7 @@ export function UtilityPanel() {
 
       {tab === "library" && (
         <div className="library-content">
-          <div className="utility-title"><Component size={16} /><div><strong>Biblioteca SwiftUI</strong><span>Inserta una vista en el cursor</span></div></div>
+          <div className="utility-title"><Component size={16} /><div><strong>Biblioteca UIKit</strong><span>Inserta conexiones y acciones en el cursor</span></div></div>
           <label className="library-search"><Search size={14} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar vistas" /></label>
           <div className="library-list">
             {(["Diseño", "Controles", "Contenido", "Modificadores"] as const).map((category) => {
@@ -107,7 +107,7 @@ export function UtilityPanel() {
               if (!items.length) return null;
               return (
                 <section key={category}>
-                  <h3>{category}</h3>
+                  <h3>{category === "Modificadores" ? "Propiedades" : category}</h3>
                   {items.map((item) => (
                     <button key={item.id} type="button" onClick={() => requestInsertion(item.snippet)}>
                       <span className="library-icon">{item.category === "Modificadores" ? <Braces size={15} /> : <Component size={15} />}</span>

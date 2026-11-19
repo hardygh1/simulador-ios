@@ -57,7 +57,7 @@ export function ProjectExplorer() {
           <span className="eyebrow">CURSO IOS</span>
           <h2>Mi laboratorio</h2>
         </div>
-        <button className="new-project-button" type="button" onClick={() => setShowNewProject(true)} title="Crear un proyecto SwiftUI">
+        <button className="new-project-button" type="button" onClick={() => setShowNewProject(true)} title="Crear un proyecto UIKit con Storyboard">
           <Plus size={15} /> Nuevo
         </button>
       </div>
@@ -77,7 +77,7 @@ export function ProjectExplorer() {
           <div className="group-label"><ChevronDown size={14} /> MIS PROYECTOS <span>{customProjects.length}</span></div>
           {filteredProjects.length === 0 ? (
             <button type="button" className="empty-projects" onClick={() => setShowNewProject(true)}>
-              <Plus size={16} /><span><strong>Crear mi primer proyecto</strong><small>Empieza con ContentView.swift</small></span>
+              <Plus size={16} /><span><strong>Crear mi primer proyecto</strong><small>Storyboard + ViewController</small></span>
             </button>
           ) : filteredProjects.map((project) => {
             const active = project.id === activeCustomProjectId;
@@ -92,15 +92,17 @@ export function ProjectExplorer() {
                 >
                   {expanded ? <ChevronDown className="tree-chevron" size={13} /> : <ChevronRight className="tree-chevron" size={13} />}
                   <AppWindow size={16} />
-                  <span className="template-copy"><strong>{project.name}</strong><small>iOS App · SwiftUI</small></span>
+                  <span className="template-copy"><strong>{project.name}</strong><small>iOS App · Storyboard</small></span>
                 </button>
                 {expanded && (
                   <div className="project-file-tree">
                     <div className="tree-node folder-node"><ChevronDown size={12} /><Folder size={14} /><span>{project.name}</span></div>
-                    <div className="tree-node file-node depth-2"><FileCode2 size={14} /><span>{project.name}App.swift</span></div>
-                    <button type="button" className={`tree-node file-node depth-2 ${active ? "active-file" : ""}`} onClick={() => selectCustomProject(project.id)}><FileCode2 size={14} /><span>ContentView.swift</span></button>
+                    <div className="tree-node file-node depth-2"><FileCode2 size={14} /><span>AppDelegate.swift</span></div>
+                    <div className="tree-node file-node depth-2"><FileCode2 size={14} /><span>SceneDelegate.swift</span></div>
+                    <button type="button" className={`tree-node file-node depth-2 ${active ? "active-file" : ""}`} onClick={() => selectCustomProject(project.id)}><FileCode2 size={14} /><span>ViewController.swift</span></button>
+                    <div className="tree-node file-node depth-2"><AppWindow size={14} /><span>Main.storyboard</span></div>
+                    <div className="tree-node file-node depth-2"><AppWindow size={14} /><span>LaunchScreen.storyboard</span></div>
                     <div className="tree-node file-node depth-2"><Images size={14} /><span>Assets.xcassets</span></div>
-                    <div className="tree-node folder-node depth-2"><ChevronRight size={12} /><Folder size={14} /><span>Preview Content</span></div>
                     <div className="tree-node folder-node"><ChevronRight size={12} /><Package size={14} /><span>Products</span></div>
                     <div className="tree-node file-node depth-2 muted-product"><Box size={14} /><span>{project.name}.app</span></div>
                   </div>
